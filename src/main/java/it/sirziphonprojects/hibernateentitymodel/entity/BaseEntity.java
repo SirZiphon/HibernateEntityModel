@@ -8,7 +8,7 @@ import java.util.Map;
  * @author SirZiphon {@literal <https://github.com/sirziphon>}
  * @version 1.0.0
  */
-public abstract class BaseEntity {
+public abstract class BaseEntity<T extends KeyMapper> {
     /**
      * this method check if the primary keys of the current instance match with the ones in the map
      *
@@ -20,15 +20,14 @@ public abstract class BaseEntity {
     /**
      * this method return the primary key object of the entity
      *
-     * @param <T>
      * @return
      */
-    public abstract <T extends KeyMapper> T getKey();
+    public abstract T getKey();
 
     @Override
     public boolean equals(Object other) {
         // check if the parameter exist and is an instance of BaseEntity
-        if (other == null || !(other instanceof BaseEntity))
+        if (other == null || !(other instanceof BaseEntity) || this.getClass() == other.getClass())
             return false;
 
         return this.baseEntityEquals((BaseEntity) other);
