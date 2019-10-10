@@ -203,10 +203,10 @@ public abstract class BaseModel<T extends BaseEntity> {
     @NotNull
     public boolean deleteElement(T element) {
         // check the param
-        if ( element == null || element.getKey() == null)
+        if ( element == null || element.getId() == null)
             return false;
 
-        return this.deleteElement(element.getKey().getAsMap());
+        return this.deleteElement(element.getId().getAsMap());
     }
 
     /**
