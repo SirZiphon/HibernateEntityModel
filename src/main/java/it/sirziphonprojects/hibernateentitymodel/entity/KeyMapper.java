@@ -16,4 +16,13 @@ public interface KeyMapper {
      * @return the list of keys as a map
      */
     public Map<String, Object> getAsMap();
+
+    /**
+     * this method confront the locals key with those passed in the map; return <code>true</code> if the keys match,
+     * <code>false</code> otherwise
+     *
+     * @param keysMap
+     * @return
+     */
+    public boolean equals(Map<String, Object> keysMap);
 }

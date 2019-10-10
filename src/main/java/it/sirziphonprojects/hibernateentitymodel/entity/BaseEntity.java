@@ -1,5 +1,6 @@
 package it.sirziphonprojects.hibernateentitymodel.entity;
 
+import javax.persistence.EmbeddedId;
 import java.util.Map;
 
 /**
@@ -9,13 +10,27 @@ import java.util.Map;
  * @version 1.0.0
  */
 public abstract class BaseEntity<T extends KeyMapper> {
+
+    @EmbeddedId
+    private T id;
+
+    // id getter and setter
+    public T getId() { return this.id; }
+    public void setId(T id) { this.id = id; }
+
     /**
      * this method check if the primary keys of the current instance match with the ones in the map
      *
      * @param keysMap
      * @return
      */
-    public abstract boolean equals(Map<String, Object> keysMap);
+    public boolean equals(Map<String, Object> keysMap) {
+        // check if the parameter is null or empty
+        if (keysMap == null || keysMap.isEmpty())
+            return false;
+
+        return this.id.equals(keysMap);
+    }
 
     /**
      * this method return the primary key object of the entity
