@@ -32,13 +32,6 @@ public abstract class BaseEntity<T extends KeyMapper> {
         return this.id.equals(keysMap);
     }
 
-    /**
-     * this method return the primary key object of the entity
-     *
-     * @return
-     */
-    public abstract T getKey();
-
     @Override
     public boolean equals(Object other) {
         // check if the parameter exist and is an instance of BaseEntity
