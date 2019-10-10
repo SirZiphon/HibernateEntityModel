@@ -2,6 +2,7 @@ package it.sirziphonprojects.hibernateentitymodel.entity;
 
 import javax.persistence.EmbeddedId;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Abstract class for all entities of the db
@@ -38,26 +39,18 @@ public abstract class BaseEntity<T extends KeyMapper> {
         if (other == null || !(other instanceof BaseEntity) || this.getClass() == other.getClass())
             return false;
 
-        return this.baseEntityEquals((BaseEntity) other);
-    }
+        BaseEntity otherBaseEntity = (BaseEntity) other;
 
-    /**
-     * this method force the developer to Override the method equals of class Object
-     *
-     * @param other
-     * @return
-     */
-    protected abstract boolean baseEntityEquals(BaseEntity other);
+        // check if the id objects are instantiated
+        if (this.id == null || otherBaseEntity.getId() == null)
+            return false;
+
+        return this.id.equals(otherBaseEntity.getId().getAsMap());
+    }
 
     @Override
     public int hashCode() {
-        return this.baseEntityHashCode();
+        return Objects.hash(this.id);
     }
 
-    /**
-     * this method force the developer to Ovverride the method hashCode of class Object
-     *
-     * @return
-     */
-    protected abstract int baseEntityHashCode();
 }
