@@ -1,5 +1,8 @@
 # Change Log
 
+## V1.1.2
+* fixed minor issues
+
 ## V1.1.1 
 * abstract class [BaseEntity](/src/main/java/it/sirziphonprojects/hibernateentitymodel/entity/BaseEntity.java) removed unused method ```getKey()```
 
