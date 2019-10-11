@@ -1,8 +1,10 @@
 # Change Log
 
 ## V1.3.0
-* [BaseModel](/src/main/java/it/sirziphonprojects/hibernateentitymodel/model/BaseModel.java) now the generic Type is an extension of the [KeyMapper](/src/main/java/it/sirziphonprojects/hibernateentitymodel/entity/KeyMapper.java) interface
+* changes on [BaseModel](/src/main/java/it/sirziphonprojects/hibernateentitymodel/model/BaseModel.java): 
+    * now the generic Type is an extension of the [KeyMapper](/src/main/java/it/sirziphonprojects/hibernateentitymodel/entity/KeyMapper.java) interface
 * removed class BaseEntity because unused
+* fixed issue under method ```public boolean insertElement(T element)```: now the PersistenceException is managed
 * changes on [KeyMapper](/src/main/java/it/sirziphonprojects/hibernateentitymodel/entity/KeyMapper.java):
     * added default method ```public default boolean equals(Map<String, Object> keysMap)```
     * added default method ```public default boolean equals(KeyMapper keyMapper)```

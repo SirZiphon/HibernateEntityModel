@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.query.Query;
 
+import javax.persistence.PersistenceException;
 import java.util.List;
 import java.util.Map;
 
@@ -185,11 +186,10 @@ public abstract class BaseModel<T extends KeyMapper> {
             session.save(element);
 
             session.getTransaction().commit();
-        } catch (ConstraintViolationException ex ) {
+        } catch (PersistenceException ex) {
             // a row with the element's keys already exist
             return false;
         } catch (Exception ex) {
-            System.out.println(ex.getClass().toString());
             System.err.println(ex);
             return false;
         }
