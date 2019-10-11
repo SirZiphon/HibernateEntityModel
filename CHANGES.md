@@ -1,5 +1,12 @@
 # Change Log
 
+## V1.3.0
+* [BaseModel](/src/main/java/it/sirziphonprojects/hibernateentitymodel/model/BaseModel.java) now the generic Type is an extension of the [KeyMapper](/src/main/java/it/sirziphonprojects/hibernateentitymodel/entity/KeyMapper.java) interface
+* removed class BaseEntity because unused
+* changes on [KeyMapper](/src/main/java/it/sirziphonprojects/hibernateentitymodel/entity/KeyMapper.java):
+    * added default method ```public default boolean equals(Map<String, Object> keysMap)```
+    * added default method ```public default boolean equals(KeyMapper keyMapper)```
+
 ## V1.2.1
 * abstract class [BaseEntity](/src/main/java/it/sirziphonprojects/hibernateentitymodel/entity/BaseEntity.java) V1.0.1 set id as protected
 

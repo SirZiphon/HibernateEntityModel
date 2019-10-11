@@ -17,9 +17,10 @@ The purpose of this project is to create a library that provides a series of bas
 
 ## Library Composition
 The library is composed of two interfaces and two abstract classes: 
-* [BaseEntity](/src/main/java/it/sirziphonprojects/hibernateentitymodel/entity/BaseEntity.java) this abstract class must be developed in every entity that you want to implement using this library; it's composed by the follow methods:
-    * ```public boolean equals(Map<String, Object> keysMap)``` his method check if the primary keys of the current instance match with the ones in the map
-* [KeyMapper](/src/main/java/it/sirziphonprojects/hibernateentitymodel/entity/KeyMapper.java) this interface must be implemented in the @embedded class that represent the primary key of the entity; it's required to implement the method  ```Map<String, Object> getAsMap()``` that return the entity key as a list of couples of nameCamp - value.
+* [KeyMapper](/src/main/java/it/sirziphonprojects/hibernateentitymodel/entity/KeyMapper.java) this interface must be implemented in any entity class; it's provides the follow methods:
+    * ```Map<String, Object> getAsMap()``` that return the entity key as a list of couples of nameCamp - value.
+    * ```public default boolean equals(Map<String, Object> keysMap)``` compares the passed keys in the map with the entity keys
+    * ```public default boolean equals(KeyMapper keyMapper)``` compares the keys of the two entities
 * [HibernateBaseConnector](/src/main/java/it/sirziphonprojects/hibernateentitymodel/connector/HibernateBaseConnector.java) this interface must be implemented in the helper class that bootstrap the hibernate connection; it's require to implement two methods:
     * ```public SessionFactory getSessionFactory();``` for get the sessionFactory instance
     * ```public void shutdown();``` for close the database connection

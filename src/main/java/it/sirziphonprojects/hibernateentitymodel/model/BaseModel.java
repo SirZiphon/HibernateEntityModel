@@ -2,7 +2,7 @@ package it.sirziphonprojects.hibernateentitymodel.model;
 
 import com.sun.istack.NotNull;
 import it.sirziphonprojects.hibernateentitymodel.connector.HibernateBaseConnector;
-import it.sirziphonprojects.hibernateentitymodel.entity.BaseEntity;
+import it.sirziphonprojects.hibernateentitymodel.entity.KeyMapper;
 import org.hibernate.HibernateException;
 import org.hibernate.NonUniqueResultException;
 import org.hibernate.Session;
@@ -16,10 +16,10 @@ import java.util.Map;
  * class
  *
  * @author SirZiphon {@literal <https://github.com/sirziphon>}
- * @version 1.0.0
+ * @version 1.1.0
  * @param <T> the Entity class
  */
-public abstract class BaseModel<T extends BaseEntity> {
+public abstract class BaseModel<T extends KeyMapper> {
 
     protected List<T> list;
 
@@ -203,10 +203,10 @@ public abstract class BaseModel<T extends BaseEntity> {
     @NotNull
     public boolean deleteElement(T element) {
         // check the param
-        if ( element == null || element.getId() == null)
+        if ( element == null )
             return false;
 
-        return this.deleteElement(element.getId().getAsMap());
+        return this.deleteElement(element.getAsMap());
     }
 
     /**
