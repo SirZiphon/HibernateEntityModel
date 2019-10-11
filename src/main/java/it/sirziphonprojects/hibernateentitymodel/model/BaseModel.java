@@ -6,6 +6,7 @@ import it.sirziphonprojects.hibernateentitymodel.entity.KeyMapper;
 import org.hibernate.HibernateException;
 import org.hibernate.NonUniqueResultException;
 import org.hibernate.Session;
+import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.query.Query;
 
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.Map;
  * class
  *
  * @author SirZiphon {@literal <https://github.com/sirziphon>}
- * @version 1.1.0
+ * @version 1.1.1
  * @param <T> the Entity class
  */
 public abstract class BaseModel<T extends KeyMapper> {
@@ -184,6 +185,9 @@ public abstract class BaseModel<T extends KeyMapper> {
             session.save(element);
 
             session.getTransaction().commit();
+        } catch (ConstraintViolationException ex ) {
+            // a row with the element's keys already exist
+            return false;
         } catch (HibernateException ex) {
             System.err.println(ex);
             return false;
