@@ -8,12 +8,12 @@ import java.util.Objects;
  * Abstract class for all entities of the db
  *
  * @author SirZiphon {@literal <https://github.com/sirziphon>}
- * @version 1.0.0
+ * @version 1.0.1
  */
 public abstract class BaseEntity<T extends KeyMapper> {
 
     @EmbeddedId
-    private T id;
+    protected T id;
 
     // id getter and setter
     public T getId() { return this.id; }

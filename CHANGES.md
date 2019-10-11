@@ -1,5 +1,8 @@
 # Change Log
 
+## V1.2.1
+* abstract class [BaseEntity](/src/main/java/it/sirziphonprojects/hibernateentitymodel/entity/BaseEntity.java) V1.0.1 set id as protected
+
 ## V1.2.0
 * abstract class [BaseEntity](/src/main/java/it/sirziphonprojects/hibernateentitymodel/entity/BaseEntity.java) removed methods ``` protected abstract boolean baseEntityEquals(BaseEntity other);``` and ```protected abstract int baseEntityHashCode();```; optimized methods ```equals``` and ```hashCode```
 
