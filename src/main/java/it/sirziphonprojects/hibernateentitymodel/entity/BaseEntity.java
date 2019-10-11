@@ -2,6 +2,8 @@ package it.sirziphonprojects.hibernateentitymodel.entity;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import java.util.Map;
 import java.util.Objects;
 
@@ -12,6 +14,7 @@ import java.util.Objects;
  * @version 1.0.1
  */
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class BaseEntity<T extends KeyMapper> {
 
     @EmbeddedId
