@@ -1,6 +1,7 @@
 package it.sirziphonprojects.hibernateentitymodel.entity;
 
 import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
 import java.util.Map;
 import java.util.Objects;
 
@@ -10,6 +11,7 @@ import java.util.Objects;
  * @author SirZiphon {@literal <https://github.com/sirziphon>}
  * @version 1.0.1
  */
+@Entity
 public abstract class BaseEntity<T extends KeyMapper> {
 
     @EmbeddedId
