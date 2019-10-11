@@ -189,6 +189,7 @@ public abstract class BaseModel<T extends KeyMapper> {
             // a row with the element's keys already exist
             return false;
         } catch (HibernateException ex) {
+            System.out.println(ex.getClass().toString());
             System.err.println(ex);
             return false;
         }
