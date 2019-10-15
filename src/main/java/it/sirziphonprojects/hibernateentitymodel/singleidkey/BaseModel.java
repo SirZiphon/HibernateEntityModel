@@ -1,27 +1,26 @@
-package it.sirziphonprojects.hibernateentitymodel.model;
+package it.sirziphonprojects.hibernateentitymodel.singleidkey;
 
 import com.sun.istack.NotNull;
 import it.sirziphonprojects.hibernateentitymodel.connector.HibernateBaseConnector;
-import it.sirziphonprojects.hibernateentitymodel.entity.KeyMapper;
 import org.hibernate.HibernateException;
 import org.hibernate.NonUniqueResultException;
 import org.hibernate.Session;
-import org.hibernate.exception.ConstraintViolationException;
-import org.hibernate.query.Query;
 
 import javax.persistence.PersistenceException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This class will be used as base for the implementation of all entities models
  * class
  *
  * @author SirZiphon {@literal <https://github.com/sirziphon>}
- * @version 1.1.1
+ * @version 1.0.0
+ * @since version 2.0.0
+ *
  * @param <T> the Entity class
+ * @param <K> type of the entity key
  */
-public abstract class BaseModel<T extends KeyMapper> {
+public abstract class BaseModel<T extends BaseEntity<K>, K> {
 
     protected List<T> list;
 
@@ -98,44 +97,40 @@ public abstract class BaseModel<T extends KeyMapper> {
      * if the the param searchInLocal is true, the element will be searched into the current list present
      * into the class; this for reduce the access requests to the database
      *
-     * @param keyMap the param to search the element
+     * @param key the param to search the element
      * @param searchInLocal
      * @return the element searched or <code>null</code>
      */
     @NotNull
-    public T getElement(Map<String, Object> keyMap, boolean searchInLocal) {
+    public T getElement(K key, boolean searchInLocal) {
         // check the parameters
-        if (keyMap == null || keyMap.isEmpty())
+        if (key == null)
             return null;
 
         // execute the right choice
         if (searchInLocal)
-            return this.searchInLocal(keyMap);
+            return this.searchInLocal(key);
         else
-            return this.searchIntoDatabase(keyMap);
+            return this.searchIntoDatabase(key);
     }
 
     /**
      * this method execute the search directly into the database
      *
-     * @param keyMap
+     * @param key
      * @return
      */
     @NotNull
-    private T searchIntoDatabase(Map<String, Object> keyMap) {
+    private T searchIntoDatabase(K key) {
         T searchedElement = null;
 
         // get the session
         try (Session session = this.hibernateConnector.getSessionFactory().openSession()) {
             session.beginTransaction();
 
-            final Query<T> query = session.createNamedQuery(this.selectElementByPkNamedQuery, this.classType);
-
-            keyMap.forEach((key, value) -> {
-                query.setParameter(key, value);
-            });
-
-            searchedElement = query.uniqueResult();
+            searchedElement = session.createNamedQuery(this.selectElementByPkNamedQuery, this.classType)
+                    .setParameter("id", key)
+                    .uniqueResult();
 
             session.getTransaction().commit();
         } catch (NonUniqueResultException ex) {
@@ -148,18 +143,18 @@ public abstract class BaseModel<T extends KeyMapper> {
     /**
      * this method execute the search into the local list
      *
-     * @param keyMap
+     * @param key
      * @return
      */
     @NotNull
-    private T searchInLocal(Map<String, Object> keyMap) {
+    private T searchInLocal(K key) {
         // check if the list exist
         if (this.list == null)
             return null;
 
         // search the element into the list
         for (T element : this.list) {
-            if (element.equals(keyMap))
+            if (element.equals(key))
                 return element;
         }
 
@@ -211,7 +206,7 @@ public abstract class BaseModel<T extends KeyMapper> {
         if ( element == null )
             return false;
 
-        return this.deleteElement(element.getAsMap());
+        return this.deleteElement(element.getId());
     }
 
     /**
@@ -252,13 +247,13 @@ public abstract class BaseModel<T extends KeyMapper> {
      * variation of the deleteElement(T element), in this case the element is delete
      * using only the primary key
      *
-     * @param keyMap the primary keys of the element to delete
+     * @param key the primary key of the element to delete
      * @return  <code>true</code> for successfully deletion, <code>false</code> otherwise
      */
     @NotNull
-    public boolean deleteElement(Map<String, Object> keyMap) {
+    public boolean deleteElement(K key) {
         // check the parameter
-        if (keyMap == null || keyMap.isEmpty())
+        if (key == null)
             return false;
 
         int deletedRows = 0;
@@ -267,11 +262,9 @@ public abstract class BaseModel<T extends KeyMapper> {
         try (Session session = this.hibernateConnector.getSessionFactory().openSession()) {
             session.beginTransaction();
 
-            final Query query = session.createNamedQuery(this.deleteElementByPkNamedQuery);
-
-            keyMap.forEach((key, value) -> query.setParameter(key, value));
-
-            deletedRows = query.executeUpdate();
+            deletedRows = session.createNamedQuery(this.deleteElementByPkNamedQuery)
+                    .setParameter("id", key)
+                    .executeUpdate();
 
             session.getTransaction().commit();
         } catch (HibernateException ex) {

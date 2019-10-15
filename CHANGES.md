@@ -1,5 +1,8 @@
 # Change Log
 
+## V2.0.0
+* changed the package organization: now the [BaseModel](/src/main/java/it/sirziphonprojects/hibernateentitymodel/customidkey/BaseModel.java) and [KeyMapper](/src/main/java/it/sirziphonprojects/hibernateentitymodel/customidkey/KeyMapper.java) are under ```it.sirziphonprojects.hibernateentitymodel.customidkey```
+* added two new classes under package ```it.sirziphonprojects.hibernateentitymodel.singleidkey```: [BaseEntity](/src/main/java/it/sirziphonprojects/hibernateentitymodel/singleidkey/BaseModel.java) and [BaseModel](/src/main/java/it/sirziphonprojects/hibernateentitymodel/singleidkey/BaseModel.java); these class must be used for manage entities where the primary key is only one named **id**
 ## V1.3.0
 * changes on [BaseModel](/src/main/java/it/sirziphonprojects/hibernateentitymodel/model/BaseModel.java): 
     * now the generic Type is an extension of the [KeyMapper](/src/main/java/it/sirziphonprojects/hibernateentitymodel/entity/KeyMapper.java) interface

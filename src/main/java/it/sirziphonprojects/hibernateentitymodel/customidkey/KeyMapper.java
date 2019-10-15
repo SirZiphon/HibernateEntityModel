@@ -1,4 +1,4 @@
-package it.sirziphonprojects.hibernateentitymodel.entity;
+package it.sirziphonprojects.hibernateentitymodel.customidkey;
 
 import java.util.Map;
 
